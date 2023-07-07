@@ -58,7 +58,7 @@ class ReadTheDocsLoader extends BaseDocumentLoader {
   }
 }
 
-const directoryPath = "docs.langchain.com";
+const directoryPath = "docs";
 const loader = new ReadTheDocsLoader(directoryPath);
 
 export const run = async () => {

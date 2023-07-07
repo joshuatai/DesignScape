@@ -3,4 +3,4 @@
 # Error if any command fails
 set -e
 echo Downloading docs...
-wget -q -r -A.html https://docs.langchain.com/docs/
+wget -q -r -A.html https://trendmicro-frontend.github.io/tonic-ui/react

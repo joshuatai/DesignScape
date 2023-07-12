@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { Server as HttpServer } from 'http';
 import type { Server as HttpsServer } from 'https';
 import { WebSocketServer } from 'ws';
-import { HNSWLib } from 'langchain/vectorstores/hnswlib';
+import { HNSWLib } from 'langchain/vectorstores/hnswlib'; // https://js.langchain.com/docs/api/vectorstores_hnswlib/classes/HNSWLib
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { formatHistory, makeChain } from './util';
 
@@ -41,12 +41,13 @@ export default async function handler(
       });
     }
 
-    const chainPromise = HNSWLib.load('data', new OpenAIEmbeddings({
-      azureOpenAIApiDeploymentName: 'text-embedding-ada-002', // Azure OpenAI API deployment name
-    })).then((vs) => makeChain(vs, onNewToken));
+    const embeddings = new OpenAIEmbeddings({
+      azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_TEXT_EMBEDDING,
+    });
+    const chainPromise = HNSWLib.load('data', embeddings).then((vs) => makeChain(vs, onNewToken));
+
     const chatHistory: [string, string][] = [];
     const encoder = new TextEncoder();
-
 
     ws.on('message', async (data) => {
       try {

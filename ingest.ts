@@ -1,15 +1,15 @@
-import { HNSWLib } from "langchain/vectorstores/hnswlib";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import * as fs from "fs";
-import { Document } from "langchain/document";
-import { BaseDocumentLoader } from "langchain/document_loaders/base";
-import path from "path";
-import { load } from "cheerio";
+import { HNSWLib } from 'langchain/vectorstores/hnswlib';
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import * as fs from 'fs';
+import { Document } from 'langchain/document';
+import { BaseDocumentLoader } from 'langchain/document_loaders/base';
+import path from 'path';
+import { load } from 'cheerio';
 
 async function processFile(filePath: string): Promise<Document> {
   return await new Promise<Document>((resolve, reject) => {
-    fs.readFile(filePath, "utf8", (err, fileContents) => {
+    fs.readFile(filePath, 'utf8', (err, fileContents) => {
       if (err) {
         reject(err);
       } else {
@@ -58,29 +58,31 @@ class ReadTheDocsLoader extends BaseDocumentLoader {
   }
 }
 
-const directoryPath = "docs";
+const directoryPath = 'docs';
 const loader = new ReadTheDocsLoader(directoryPath);
 
 export const run = async () => {
   const rawDocs = await loader.load();
-  console.log("Loader created.");
+
   /* Split the text into chunks */
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 200,
   });
-  const docs = await textSplitter.splitDocuments(rawDocs);
-  console.log("Docs splitted.");
 
-  console.log("Creating vector store...");
-  /* Create the vectorstore */
-  const vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings({
-    azureOpenAIApiDeploymentName: 'text-embedding-ada-002', // Azure OpenAI deployment name
-  }));
-  await vectorStore.save("data");
+  const docs = await textSplitter.splitDocuments(rawDocs);
+
+  const embeddings = new OpenAIEmbeddings({
+    azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_TEXT_EMBEDDING,
+  });
+
+  console.log(`Creating vector store: docs=${docs.length}, model="${process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_TEXT_EMBEDDING}"`);
+  const vectorStore = await HNSWLib.fromDocuments(docs, embeddings);
+
+  console.log('Saving vector store to disk...');
+  await vectorStore.save('data');
 };
 
 (async () => {
   await run();
-  console.log("done");
 })();

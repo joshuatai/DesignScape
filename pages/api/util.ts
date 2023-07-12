@@ -30,6 +30,17 @@ const QA_PROMPT = PromptTemplate.fromTemplate(`
 You are an AI assistant for the Tonic UI component library. The documentation is located at https://trendmicro-frontend.github.io/tonic-ui/react/latest.
 You are given the following extracted parts of a long document and a question. Provide a conversational answer with a hyperlink to the documentation.
 You should only use hyperlinks that are explicitly listed as a source in the context. Do NOT make up a hyperlink that is not listed.
+
+The mapping path for components:
+* [Button](components/button)
+* [Link](components/link)
+   :   :   :
+
+The mapping path for patterns:
+* [Notification](patterns/notification)
+* [Table Display](patterns/table-display)
+   :   :   :
+
 If the question includes a request for code, provide a code block directly from the documentation.
 If you don't know the answer, just say 'Hmm, I'm not sure.' Don't try to make up an answer.
 If the question is not about Tonic UI component library, politely inform them that you are tuned to only answer questions about Tonic UI component library.

@@ -10,7 +10,7 @@ cp .env.example .env
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/en/download/) (v16 or higher)
+- [Node.js](https://nodejs.org/en/download/) (v18 or higher)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable)
 - `wget` (on macOS, you can install this with `brew install wget`)
 
@@ -18,15 +18,12 @@ Next, we'll need to load our data source.
 
 ### Data Ingestion
 
-Data ingestion happens in two steps.
-
-First, you should run
+First, you should initialize and update submodules:
 
 ```bash
-yarn download
+git submodule init
+git submodule update
 ```
-
-This will download our data source (in this case the Langchain docs ).
 
 Next, install dependencies and run the ingestion script:
 

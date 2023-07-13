@@ -1,0 +1,3 @@
+[submodule "tonic-ui"]
+	path = tonic-ui
+	url = git@github.com:trendmicro-frontend/tonic-ui.git

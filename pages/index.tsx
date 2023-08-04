@@ -123,7 +123,7 @@ export default function Home() {
       </Head>
       <div className={styles.topnav}>
         <div className = {styles.navlogo}>
-          <Link href="/">LangChain</Link>
+          <Link href="/">DesignScape</Link>
         </div>
         <div className = {styles.navlinks}>
           <a

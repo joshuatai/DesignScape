@@ -159,19 +159,19 @@ export const run = async () => {
     })()
   );
 
-  const metadata = docs.reduce((acc, doc) => {
-    const source = doc.metadata.source;
-    acc[source] = acc[source] ?? { pageContents: [] };
-    acc[source].pageContents.push(doc.pageContent);
-    return acc;
-  }, {});
+  // const metadata = docs.reduce((acc, doc) => {
+  //   const source = doc.metadata.source;
+  //   acc[source] = acc[source] ?? { pageContents: [] };
+  //   acc[source].pageContents.push(doc.pageContent);
+  //   return acc;
+  // }, {});
 
-  const entries = Object.entries(metadata);
-  for (const [source, { pageContents }] of entries) {
-    const count = pageContents.length;
-    const size = pageContents.reduce((acc, pageContent) => acc + pageContent.length, 0);
-    console.log(`${source}: count=${count}, size=${size}`);
-  }
+  // const entries = Object.entries(metadata);
+  // for (const [source, { pageContents }] of entries) {
+  //   const count = pageContents.length;
+  //   const size = pageContents.reduce((acc, pageContent) => acc + pageContent.length, 0);
+  //   console.log(`${source}: count=${count}, size=${size}`);
+  // }
 
   const embeddings = new OpenAIEmbeddings({
     azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME_TEXT_EMBEDDING,
